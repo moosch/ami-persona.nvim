@@ -2,10 +2,11 @@
 
 Steer the advisor's style in [ami](https://github.com/moosch/ami.nvim).
 
-A small extension that injects a **persona instruction** into each chat request — e.g.
-"be terse", a house voice, or a reviewer mindset — and lets you switch at runtime. It
-works by hooking the `chat_turn_pre` lifecycle event and adding a system message, so
-it's also the reference example of a prompt-injection extension.
+A small extension that contributes a **persona instruction** to each chat request —
+e.g. "be terse", a house voice, or a reviewer mindset — and lets you switch at
+runtime. It returns its instruction to chat's `chat.system` collector hook (chat
+composes it into the turn), so it's also the reference example of a return-style
+contribution via a collector.
 
 ## Requirements
 

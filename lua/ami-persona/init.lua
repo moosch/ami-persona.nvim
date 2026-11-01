@@ -1,15 +1,15 @@
 -- ami-persona: steer the advisor's style, as a standalone ami extension.
 --
--- It hooks the chat_turn_pre event and injects a persona instruction as an extra
--- system message into each outgoing chat request — e.g. "be terse", a house voice,
--- a reviewer mindset. Switch personas at runtime with :AmiPersona.
+-- It contributes a persona instruction to chat's "chat.system" collector — an extra
+-- system message injected into each chat request (e.g. "be terse", a house voice, a
+-- reviewer mindset). Switch personas at runtime with :AmiPersona.
 --
 --   require("ami").setup({
 --     extensions = { require("ami-chat"), require("ami-persona") },
 --     persona = { active = "terse" },   -- or add your own under `personas`
 --   })
 --
--- A reference example of a prompt-injection extension built purely on chat_turn_pre.
+-- A reference example of a return-style contribution via a collector hook.
 local state = { api = nil }
 
 -- The active persona's instruction text (or nil when disabled / empty).
@@ -62,13 +62,11 @@ return {
     },
   },
 
-  -- Inject the persona as a system message, just after the advisor system prompt.
+  -- Contribute the persona as a system message via chat's "chat.system" collector.
+  -- Return the instruction (or nil to add nothing); chat composes it into the turn.
   events = {
-    chat_turn_pre = function(req)
-      local text = active_text()
-      if text and req.messages then
-        table.insert(req.messages, math.min(2, #req.messages + 1), { role = "system", content = text })
-      end
+    ["chat.system"] = function()
+      return active_text()
     end,
   },
 
