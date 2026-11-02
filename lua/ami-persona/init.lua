@@ -68,6 +68,26 @@ return {
     ["chat.system"] = function()
       return active_text()
     end,
+    -- Contribute /persona as a chat slash-command, mirroring :AmiPersona.
+    ["chat.commands"] = function()
+      return {
+        persona = {
+          desc = "Select the chat persona (/persona [name|off])",
+          fn = function(ctx)
+            local arg = vim.trim(ctx.args or "")
+            if arg ~= "" then
+              set(arg)
+            else
+              vim.ui.select(names(), { prompt = "Persona:" }, function(choice)
+                if choice then
+                  set(choice)
+                end
+              end)
+            end
+          end,
+        },
+      }
+    end,
   },
 
   commands = {

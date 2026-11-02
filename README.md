@@ -31,6 +31,7 @@ contribution via a collector.
 
 - `:AmiPersona` — pick a persona (no arg prompts; `off` disables injection).
 - `:AmiPersona terse` / `:AmiPersona off` — set directly.
+- `/persona [name|off]` — the same, as a slash-command in the ami-chat input.
 
 Built-in personas: `terse`, `teacher`, `reviewer`, and `default` (a no-op). Add your
 own under `personas` (they merge with the built-ins):
